@@ -5,12 +5,12 @@
 <title>Ware House Mobile Cient</title>
 <link href="jquery-mobile/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
 <link href="jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css" />
-<link href="/ws/mobile/jqplot/jquery.jqplot.css" rel="stylesheet" type="text/css">
+<link href="jqplot/jquery.jqplot.css" rel="stylesheet" type="text/css">
 <!--  js -->
 <script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
 <script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="/ws/mobile/jqplot/jquery.jqplot.js"></script>
-<script type="text/javascript" src="/ws/mobile/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" src="jqplot/jquery.jqplot.js"></script>
+<script type="text/javascript" src="jqplot/plugins/jqplot.pieRenderer.min.js"></script>
 
 </head> 
 <body> 
@@ -78,13 +78,22 @@
 <div data-role="page" id="theapp">
 	<div data-role="header">
 		<h1>具体某个物单</h1>
+		
 	</div>
 	<div data-role="content" id="theappContent">	
 		<div id="pieChart" class="jqplot" style="height:160px">
         	<p>123</p>
         </div>		
 	</div>
-	<div data-role="footer">
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar" >
+				<ul>
+					<li><a href="writeMarker.html" data-rel="dialog" class="writeData">写进仓小票</a></li>
+					<li><a href="b.html">增加托盘</a></li>
+					
+					<li><a href="b.html">完成进仓</a></li>
+				</ul>
+			</div><!-- /navbar -->
 		<h4>Page Footer</h4>
 	</div>
 </div>
@@ -110,20 +119,35 @@
 	}
 	
 	
+	
 	//给page #theapp的格式化
 	function getFormatAppPage(idx){
 		console.log("getData init");
+		console.log("getAppList.php?idx="+idx);
 		$.post("getAppList.php?idx="+idx,function(data){
 			var obj = jQuery.parseJSON(data);
 			$('#theapp h1').html("我是货单"+obj[0].wpID);
-			var output = "<ul data-role=\"listview\" >";
-			output += "<li data-role=\"list-divider\">刷新数据</li>";
-			output += "<li>刷新数据</li>";
+			var output = "";
+			
+			
+			
+			output += "<ul data-role=\"listview\" >";
+			output += "<li data-role=\"list-divider\">货单ID</li>";
+			output += "<li>"+obj[0].appID+"</li>";
+			output += "<li data-role=\"list-divider\">货物包ID</li>";
+			output += "<li>"+obj[0].wpID+"</li>";
+			output += "<li data-role=\"list-divider\">名称</li>";
+			output += "<li>"+obj[0].appName+"</li>";
+			output += "<li data-role=\"list-divider\">操作员</li>";
+			output += "<li>"+obj[0].appOperator+"</li>";
+			output += "<li data-role=\"list-divider\">托盘位置</li>";
+			output += "<li>"+obj[0].appFrmTrayID+"</li>";
 			output += "</ul>";
 			
 			$('#theappContent').html(output); 
-			$("#theappContent").trigger("create").listview('refresh');
-			console.log("刷新表单列表");
+			console.log(output);
+			$("#theappContent").trigger("create");
+			$("#theappContent").listview("refresh");
 		/*
 			 $.each(obj, function(i, item) {
 				output += "<li><a class=\"appListItem\" href=\"#theapp\" data=\""+obj[i].wpID+"\"><h4>"+obj[i].wpID+"---"+obj[i].appName+"</h4>";
@@ -153,6 +177,11 @@
 		getFormatApps();
 		refreshScan();
 		showPie();
+		
+		$('#theapp .writeData').click(function(){
+			console.log("触发动作");
+			console.log($('.dialog').html());
+		});
 	});
 	
 	function refreshScan(){

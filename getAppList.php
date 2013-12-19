@@ -2,7 +2,13 @@
 <?php
 	include_once("_db.php");
 	
+	if(isset($_GET['idx'])){
+		
+		$query ="SELECT * FROM `wApplications` WHERE `wpID`=".$_GET['idx'];
+	}
+	else
 	$query ="SELECT * FROM `wApplications` WHERE `appSignned`=1";
+	
 	$appList = array();
 	if ($result = mysqli_query($connection, $query)) {
 			
