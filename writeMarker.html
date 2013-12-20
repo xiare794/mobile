@@ -7,7 +7,7 @@
 	<link rel="stylesheet"  href="../../css/themes/default/jquery.mobile-1.2.0.css" />  
 	<link rel="stylesheet" href="../_assets/css/jqm-docs.css"/>
 
-	<script src="//code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="jquery-mobile/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="../../docs/_assets/js/jqm-docs.js"></script>
 	<script src="../../js/jquery.mobile-1.2.0.js"></script>
 
@@ -15,26 +15,38 @@
 <body> 
 
 <div data-role="dialog" class="dialog">
-	
+	<script type="application/javascript">
+		
+		$(document).ready(function() {
+			var currentTime = new Date();
+			var month = currentTime.getMonth();
+			var day = currentTime.getDate();
+			var year = currentTime.getFullYear();
+			var hour = currentTime.getHours();
+			var min = currentTime.getMinutes();
+			$('#currentTime').val(year+"/"+month+"/"+day+"T"+hour+": "+min);
+			//$('#fname').val("我姓王");
+		});
+	</script>
 		<div data-role="header" data-theme="d">
 			<h1>Dialog</h1>
 			<a data-role="button" data-theme="d">刷新信息</a>
 		</div>
 
 		<div data-role="content" data-theme="c">
-			<h1>对货物包XX的入库</h1>
-			<p>This is a regular page, styled as a dialog. To create a dialog, just link to a normal page and include a transition and <code>data-rel="dialog"</code> attribute.</p>
-			<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="b">Sounds good</a>       
-			<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="c">Cancel</a>    
+			<h1>对货物包XX的入库</h1>   
 			<form method="post" action="demoform.asp">
 			  <label for="fname">First name:</label>
 			  <input type="text" name="fname" id="fname">
+			  
+			  <label for="date">现在时间</label>
+			  <input type="date" name="date" id="currentTime" value="123">
 			  <input type="submit" data-inline="true" value="Submit">
 			</form>
 		
 		</div>
 	</div>
-
+	
 
 </body>
 </html>
